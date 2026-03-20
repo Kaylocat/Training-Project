@@ -16,7 +16,7 @@ RAWDATA = BASEPATH / "dataset.csv"
 OUTDIR = BASEPATH / "out"
 OUTDIR.mkdir(exist_ok=True)
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger("Project Logger")
 
 COLUMNS_TO_REMOVE = ["alternative_title", "mal_url", "image_url", "genres_detailed"]
@@ -31,6 +31,7 @@ class lineage_event:
     timestamp: str
 
 def now_iso():
+    """Return current time."""
     return datetime.utcnow().isoformat(timespec="seconds")
 
 # ------ Load Data -------
@@ -166,6 +167,10 @@ def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 # ------ Analysis -------
 def create_graphs(path):
+    """Create graphs for analysis:\n 
+    - Bar chart for genres
+    - Scatterplot for years
+    """
     genres_table = an.get_score_by_genre()
     graph.plot_genres_bar(genres_table, path / "Score_by_genre")
     Lineage.append(lineage_event(
@@ -184,22 +189,27 @@ def create_graphs(path):
 
 # ------ Execute Pipeline ------
 def main():
+    #Load
     df = load_data(RAWDATA)
 
+    #Transform
     df = clean_dataframe(df)
 
+    #Store
     genres = genre.get_all_genres(df, "genres")
     genres_by_row = genre.get_genre_columns(df, genres)
     df = cd.remove_columns(df, list(["genres"]))
-    
     create_tables()
     input_data(df, genres, genres_by_row)
 
+    #Analyze
     create_graphs(OUTDIR)
 
+    #Log
     with open(OUTDIR / "logs.txt", "w", encoding="UTF-8") as log_file:
         for _event in Lineage:
             log_file.write(f"{_event.timestamp}\n{_event.action}\n\t Result: {_event.result}\n\n")
+
 
 if __name__ == "__main__":
     main()

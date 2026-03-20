@@ -56,7 +56,7 @@ def get_score_by_genre():
         conn.close()
 
 def get_score_by_year():
-    """Get dataframe for average score by genre for series"""
+    """Get dataframe for average score by genre for series."""
     conn = open_connection()
     cursor = conn.cursor()
     FILEPATH = Path(__file__).resolve().parent / "Table_temp.csv"

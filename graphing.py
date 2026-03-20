@@ -4,6 +4,9 @@ import pandas as pd
 import numpy as np
 
 def plot_genres_bar(df: pd.DataFrame, outpath: Path) -> None:   
+    """Create bar chart for data in the given dataframe.\n
+    Export graph to given path.
+    """
     fig, ax = plt.subplots(figsize=(9, 8))
     y_pos = np.arange(len(df["genre_name"]))
 
@@ -20,6 +23,9 @@ def plot_genres_bar(df: pd.DataFrame, outpath: Path) -> None:
     fig.savefig(outpath)
 
 def plot_year_bar(df: pd.DataFrame, outpath: Path) -> None:
+    """Create scatterplot for data in the given dataframe.\n
+    Export graph to given path.
+    """
     fig, ax = plt.subplots(figsize=(12, 8))
     plt.figure(figsize=(8, 5))
     ax.scatter(df["year"], df["avg_score"])
