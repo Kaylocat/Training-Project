@@ -29,6 +29,5 @@ def plot_year_bar(df: pd.DataFrame, outpath: Path) -> None:
 
     m, b = np.polyfit(df["year"], df["avg_score"], 1)
     ax.plot(df["year"], m*df["year"] + b, color='steelblue', linestyle='--', linewidth=2, label=f'Line of Fit (y = {m:.2f}x + {b:.2f})')
-    fig.show()
     fig.tight_layout()
     fig.savefig(outpath)
