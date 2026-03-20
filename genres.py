@@ -26,11 +26,11 @@ def get_genre_columns(df: pd.DataFrame, genres: list) -> dict:
 
     for i in range(df.shape[0]):
         row = []
-        ls = regex.sub("", df["genres"][i]).split(",")
+        ls = regex.sub("", df.iloc[i]["genres"]).split(",")
         for word in ls:
             if word.strip():
-                row.append(genres.index(word.strip()))
+                row.append(int(genres.index(word.strip())))
         
-        dt[i] = row
+        dt[int(df.iloc[i]["animeID"])] = row
 
     return dt
