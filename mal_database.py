@@ -235,7 +235,7 @@ def input_type_tables():
         movie_rows = len(cursor.fetchall())
         cursor.execute(queries[1])
         series_rows = len(cursor.fetchall())
-        return f"Inserted {movie_rows} rows into MOVIES.\nInserted {series_rows} rows into SERIES."
+        return f"Inserted {movie_rows} rows into MOVIES. Inserted {series_rows} rows into SERIES."
     except mysql.connector.Error as err:
         return err
     finally:
